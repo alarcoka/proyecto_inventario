@@ -1,0 +1,33 @@
+﻿{% extends "base.html" %}
+
+{% block header_title %}
+Realizar Pedidos
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form action="{{ url_for('pedidos.pedidos_view') }}" method="POST" class="pedido-form">
+        <label for="item_id">Artículo:</label>
+        <select id="item_id" name="item_id" required>
+            {% for item in items %}
+            <option value="{{ item.item_id }}">{{ item.nombre }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="dept_id">Departamento:</label>
+        <select id="dept_id" name="dept_id" required>
+            {% for dept in departamentos %}
+            <option value="{{ dept.dept_id }}">{{ dept.nombre }}</option>
+            {% endfor %}
+        </select>
+
+        <div class="cantidad-center">
+            <label for="cantidad_pedida">Cantidad:</label>
+            <input type="number" id="cantidad_pedida" name="cantidad_pedida" min="1" required>
+        </div>
+
+        <button type="submit">Hacer Pedido</button>
+    </form>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,20 @@
+﻿{% extends "base.html" %}
+
+{% block header_title %}
+Bienvenidos a la Gestión de Inventarios
+{% endblock %}
+
+{% block content %}
+
+<nav>
+    <a href="{{ url_for('inventario.inventario_view') }}">Inventario</a> |
+    <a href="{{ url_for('pedidos.pedidos_view') }}">Pedir Artículo</a> |
+    <a href="{{ url_for('confirmacion.confirmaciones_view') }}">Confirmar Entrega</a> |
+    <a href="{{ url_for('historial.historial_view') }}">Historial de Transacciones</a>|
+    <a href="{{ url_for('inventario.agregar_item') }}">Agregar/Actualizar Artículo</a>|
+    {% if current_user.is_authenticated and (current_user.rol == 'principal' or current_user.rol == 'admin') %}
+    <a href="{{ url_for('envios.envios_view') }}">Envíos Pendientes</a>
+    {% endif %}
+</nav>
+
+{% endblock content %}

@@ -1,0 +1,19 @@
+﻿{% extends "base.html" %}
+{% block header_title %}
+Agregar/Actualizar Artículo
+{% endblock %}
+
+{% block content %}
+<div class="ag-container">
+    <form action="{{ url_for('inventario.agregar_item') }}" method="POST" class="form">
+        <label for="nombre">Nombre del Artículo:</label>
+        <input type="text" name="nombre" id="nombre" required />
+        <br />
+        <label for="cantidad">Ingrese la Cantidad:</label>
+        <input type="number" name="cantidad" id="cantidad" required />
+        <br />
+        <button type="submit">Actualizar</button>
+    </form>
+</div>
+
+{% endblock content %}

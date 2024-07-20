@@ -1,0 +1,38 @@
+﻿{% extends "base.html" %}
+
+{% block header_title %}
+Confirmaciones Pendientes
+{% endblock %}
+
+{% block content %}
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Artículo</th>
+            <th>Cantidad Pedida</th>
+            <th>Fecha</th>
+            <th>Estatus</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaccion in transacciones %}
+        <tr>
+            <td>{{ transaccion.tr_id }}</td>
+            <td>{{ transaccion.pedido_por_user.nombre }}</td>
+            <td>{{ transaccion.related_item.nombre }}</td>
+            <td>{{ transaccion.cantidad_pedida }}</td>
+            <td>{{ transaccion.fecha_pedido.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            <td>
+                <form method="GET" action="{{ url_for('confirmacion.confirmacion_view', tr_id=transaccion.tr_id) }}">
+                    <button type="submit">Confirmar Entrega</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}

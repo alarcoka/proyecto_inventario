@@ -1,0 +1,67 @@
+﻿{% extends "base.html" %}
+
+{% block header_title %}
+Envíos Pendientes
+{% endblock %}
+
+{% block header %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var socket = io();
+
+        socket.on('connect', function () {
+            console.log('WebSocket connection established.');
+        });
+
+        socket.on('nuevo_pedido', function (data) {
+            console.log('Received nuevo_pedido event:', data);
+            alert(data.message);
+            location.reload();
+        });
+
+        socket.on('entrega_confirmada', function (data) {
+            console.log('Received entrega_confirmada event:', data);
+            alert(data.message);
+            location.reload();
+        });
+
+        socket.on('renotify', function (data) {
+            console.log('Received renotify event:', data);
+            alert(data.message);
+        });
+    });
+</script>
+
+
+{% endblock %}
+
+{% block content %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Departamento</th>
+            <th>Artículo</th>
+            <th>Cantidad Pedida</th>
+            <th>Fecha</th>
+            <th>Estatus</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaccion in transacciones %}
+        <tr>
+            <td>{{ transaccion.tr_id }}</td>
+            <td>{{ transaccion.dept_rel.nombre }}</td>
+            <td>{{ transaccion.related_item.nombre }}</td>
+            <td>{{ transaccion.cantidad_pedida }}</td>
+            <td>{{ transaccion.fecha_pedido.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}

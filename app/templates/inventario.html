@@ -1,0 +1,38 @@
+﻿{% extends "base.html" %}
+
+{% block header_title %}
+Inventario
+{% endblock %}
+
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <td>ID</td>
+            <td>Artículo</td>
+            <td>Cantidad Total</td>
+            <td>Acción</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.item_id }}</td>
+            <td>{{ item.nombre }}</td>
+            <td>{{ item.cantidad }}</td>
+            <td>
+                <form method="GET" action="{{ url_for('pedidos.pedidos_view') }}">
+                    <input type="hidden" name="item_id" value="{{ item.item_id }}" />
+                    <input type="hidden" name="dept_id" value="1" />
+                    <button type="submit">Hacer Pedido</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div>
+    <a href="{{ url_for('inventario.agregar_item') }}" class="agregar-button">Agregar/Actualizar Artículo</a>
+</div>
+
+{% endblock content %}

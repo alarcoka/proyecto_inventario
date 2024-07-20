@@ -1,0 +1,18 @@
+﻿{% extends "base.html" %}
+
+{% block header_title %}
+Confirmar Pedido
+{% endblock %}
+
+{% block content %}
+
+<form action="{{ url_for('confirmacion.confirmacion_view', tr_id=transaccion.tr_id) }}" method="POST">
+    <p>Artículo: {{ transaccion.related_item.nombre }}</p>
+    <p>Cantidad Pedida: {{ transaccion.cantidad_pedida }}</p>
+    <label for="cantidad_entregada">Cantidad Entregada:</label>
+    <input type="number" id="cantidad_entregada" name="cantidad_entregada" required>
+    <br />
+    <button type="submit">Confirmar</button>
+</form>
+
+{% endblock content %}

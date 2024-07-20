@@ -1,0 +1,73 @@
+﻿{% extends "base.html" %}
+
+<style>
+    .quantity-error {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+        .quantity-error .badge {
+            background-color: #f5c6cb;
+            color: #721c24;
+        }
+</style>
+
+
+{% block header_title %}
+Historial de Transacciones
+{% endblock %}
+
+{% block content %}
+
+<table>
+    <thead>
+        <tr>
+            <th>Transacción ID</th>
+            <th>Usuario</th>
+            <th>Artículo</th>
+            <th>Departamento</th>
+            <th>Cantidad</th>
+            <th>Confirmado</th>
+            <th>Fecha</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transaccion in transacciones %}
+        <tr>
+            <td>{{ transaccion.tr_id }}</td>
+            {% if transaccion.tr_tipo == 'Pedido' %}
+            <td>{{ transaccion.pedido_por_user.nombre }}</td>
+            {% elif transaccion.tr_tipo == 'Entrega' %}
+            <td>{{ transaccion.confirmado_por_user.nombre }}</td>
+            {% endif %}
+            <td>{{ transaccion.related_item.nombre }}</td>
+            <td>{{ transaccion.dept_rel.nombre }}</td>
+            <td {% if transaccion.has_error %} class="quantity-error" {% endif %}>
+                Pedida: {{ transaccion.cantidad_pedida }}<br>
+                Entregada: {{ transaccion.cantidad_entregada }}
+                <br />
+                <br />
+                {% if transaccion.cantidad_entregada < transaccion.cantidad_pedida %}
+                <span class="badge">Cantidad insuficiente</span>
+                {% endif %}
+            </td>
+            <td>{{ 'Sí' if transaccion.confirmado else 'No' }}</td>
+            <td>
+                {% if transaccion.confirmado %}
+                    {% if transaccion.fecha_confirmado %}
+                        Pedido: {{ transaccion.fecha_pedido.strftime('%Y-%m-%d %H:%M:%S') if transaccion.fecha_pedido is not none else '' }}
+                        <br />
+                        Confirmado: {{ transaccion.fecha_confirmado.strftime('%Y-%m-%d %H:%M:%S') }}
+                    {% else %}
+                        Pedido: {{ transaccion.fecha_pedido.strftime('%Y-%m-%d %H:%M:%S') if transaccion.fecha_pedido is not none else '' }}
+                    {% endif %}
+                {% else %}
+                    Pedido: {{ transaccion.fecha_pedido.strftime('%Y-%m-%d %H:%M:%S') if transaccion.fecha_pedido is not none else '' }}
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}

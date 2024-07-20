@@ -1,0 +1,15 @@
+﻿{% extends "base.html" %}
+
+{% block header_title %}
+Notificación de Pedidos
+{% endblock %}
+
+{% block content %}
+
+    <p>Se ha hecho un nuevo pedido:</p>
+    <p>Artículo: {{ name }}</p>
+    <p>Pedido por: {{ nombre }}</p>
+    <p>Departamento: {{ dept_id }}</p>
+    <p>Cantidad: {{ cantidad_pedida }}</p>
+
+{% endblock %}
